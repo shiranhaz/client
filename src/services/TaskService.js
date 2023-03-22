@@ -5,7 +5,6 @@ export const TaskService = {
     addTask,
     removeTask,
     updateTask,
-    createTask,
     getById
 }
 
@@ -29,6 +28,3 @@ function getById(idTask) {
     storageService.getById('tasks', idTask)
 }
 
-function createTask(task) {
-    storageService.newEntity('tasks', task)
-}
