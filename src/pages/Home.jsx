@@ -4,11 +4,11 @@ import {AddTask} from '../components/Task/AddTask'
 
 export const Home = () => {
     return (
-        <div className="home">
+        <div className="home"  style={{ display: "flex", justifyContent: "space-around" ,alignItems: "center", alignContent: "center",height: "100vh"}}>
             <div className="leftSide">
                 <TaskList/>
-                </div>
-                <div className="rightSide">
+            </div>
+            <div className="rightSide">
                 <AddTask/>
             </div>
         </div>

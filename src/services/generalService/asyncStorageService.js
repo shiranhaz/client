@@ -12,7 +12,7 @@ export const storageService = {
 }
 
 function getEntity(entityType) {
-    const entities = JSON.parse(localStorage.getItem(entityType));
+    let entities = JSON.parse(localStorage.getItem(entityType));
     return entities
 }
 
@@ -33,8 +33,8 @@ function _save(entityType, entities) {
 }
 
 function query(entityType) {
-    var entities = this.getEntity(entityType);
-    return Promise.resolve(entities);
+    var entities = getEntity(entityType);
+    return entities
 }
 
 function getById(entityType, entityId) {
@@ -42,27 +42,29 @@ function getById(entityType, entityId) {
 }
 function post(entityType, newEntity) {
     newEntity._id = _makeId();
-    query(entityType).then(entities => {
-        entities.push(newEntity);
-        _save(entityType, entities)
-    })
+    let entities = query(entityType)
+    entities.push(newEntity);
+    _save(entityType, entities);
+
 }
 function put(entityType, updateEntity) {
-    query(entityType).then(entities => {
-        const indexId = entities.findIndex(entity => entity._id === updateEntity._id)
-        entities.splice(indexId, 1, updateEntity);      //array.splice(index, howmany, item1, ....., itemX)
-        console.log('update entity', updateEntity);
-        _save(entityType, updateEntity)
-    })
+    let entities = query(entityType);
+    const indexId = entities.findIndex(entity => entity._id === updateEntity._id)
+    console.log('indexId', indexId);
+    entities.splice(indexId, 1, updateEntity);      //array.splice(index, howmany, item1, ....., itemX)
+    console.log('update entity', entities);
+    _save(entityType, entities)
+
 }
 
 function remove(entityType, entityId) {
-    return query(entityType).then(entities => {
-        const indexId = entities.findIndex(entity => entity._id === entityId);
-        entities.splice(indexId, 1)
-        _save(entityType, entities);
-        console.log('remove entity');
-    })
+    let entities = query(entityType);
+    const indexId = entities.findIndex(entity => entity._id === entityId);
+    debugger
+    entities.splice(indexId, 1)
+    _save(entityType, entities);
+    console.log('remove entity');
+
 
 }
 function _makeId(length = 5) {
